@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banned Number Fetcher</title>
+</head>
+<body>
+    <h1>Masukkan Nomor untuk Diblokir</h1>
+
+    <form id="phoneForm">
+        <label for="bannedNumber">Nomor (contoh: +62XXXXXXXXXX):</label>
+        <input type="text" id="bannedNumber" name="bannedNumber" required>
+        <button type="submit">Banned Nomor</button>
+    </form>
+
+    <h2>Respon:</h2>
+    <pre id="responseText"></pre>
+
+    <script>
+        document.getElementById("phoneForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+
+            // Get the value of the banned number
+            const bannedNumber = document.getElementById("bannedNumber").value;
+
+            // URL to fetch the resource
+            const url = "https://static.whatsapp.net/rsrc.php/v4/yR/r/ERz6pNGhHp8.js";
+
+            // Headers to pass with the request
+            const headers = new Headers({
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip, deflate, br, zstd",
+                "Accept-Language": "en-US,en;q=0.9",
+                "Origin": "https://faq.whatsapp.com",
+                "Priority": "u=1",
+                "Referer": "https://faq.whatsapp.com/",
+                "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+                "Sec-Ch-Ua-Mobile": "?0",
+                "Sec-Ch-Ua-Platform": '"Windows"',
+                "Sec-Fetch-Dest": "script",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "cross-site",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            });
+
+            // Function to fetch the resource
+            fetch(url, { method: 'GET', headers: headers })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById("responseText").textContent = `Resource fetched successfully:\n${data}\n\nTarget nomor yang dibanned: ${bannedNumber}`;
+                })
+                .catch(error => {
+                    document.getElementById("responseText").textContent = `Error fetching resource: ${error.message}`;
+                });
+        });
+    </script>
+</body>
+</html>
