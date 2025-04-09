@@ -26,7 +26,13 @@ async function fetchResource() {
         console.log('Resource fetched successfully:', response.data);
         // Add logic to process the fetched resource and ban the number
     } catch (error) {
-        console.error('Error fetching resource:', error);
+        console.error('Error fetching resource:', error.message);
+        if (error.response) {
+            console.error('Response error:', error.response.data);
+            console.error('Response status:', error.response.status);
+        } else {
+            console.error('Error details:', error);
+        }
     }
 }
 
